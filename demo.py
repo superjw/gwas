@@ -21,6 +21,24 @@
 #             print(line.strip())
 #         elif 'FOXO3' in sub_line_string:
 #             print(line.strip())
+import re
+
+
+def build_all_gene_list(mart_export_file):
+    """
+    37 biomart export
+    :param mart_export_file:
+    :return:
+    """
+    with open(mart_export_file) as f:
+        gene_list = []
+        next(f)
+        for line in f:
+            gene_name = line.strip().split('\t')[1]
+            # gene_id = line.strip().split('\t')[0]
+            gene_list.append(gene_name)
+        return gene_list
+
 
 def search_file(gene_name, association_file_obj):
     """
