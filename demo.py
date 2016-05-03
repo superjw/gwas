@@ -56,10 +56,10 @@ def search_file(gene_name, association_file_obj):
     return reported_traits_lst, i
 
 in_gene = 'foxo3'
-with open('/home/j/Desktop/gwas_catalog/gwas_catalog_v1.0.1-associations_e84_r2016-04-24.tsv', 'r') as f:
+with open('/home/j/Desktop/gwas/gwas_catalog_v1.0.1-associations_e84_r2016-04-24.tsv', 'r') as f:
     lst, counter = search_file(in_gene, f)
     for i in lst:
         print(i)
-    print('========')
+    # print('========')
     print(str(counter))
     print('job done!')
