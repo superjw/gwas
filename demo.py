@@ -96,7 +96,7 @@ def r_to_m_trait(reported_trait_lst, mapping_dict):
     m_trait_lst = []
     for r_trait in reported_trait_lst:
         m_trait_lst.append(mapping_dict.get(r_trait))
-        print(mapping_dict.get(r_trait))
+        # print(mapping_dict.get(r_trait))
     m_trait_lst = list(set(m_trait_lst))
     return m_trait_lst, len(m_trait_lst)
 
@@ -106,12 +106,39 @@ def main():
     asso_file_obj = open('/home/j/Desktop/gwas/gwas_catalog_v1.0.1-associations_e84_r2016-04-24.tsv', 'r')
     map_dict = efo_mapping_dict('gwas_catalog_trait-mappings_r2016-04-24.tsv')
     # for k, v in map_dict.items():
-    #     print(k + ' : ' + v)
-    for gene in gene_lst:
-        r_trait_lst, no_of_asso = search_file(gene, asso_file_obj)
-        for r in r_trait_lst:
-            print(r)
-        m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
+    # #     print(k + ' : ' + v)
+    r_trait_lst, no_of_asso = search_file('PRUNEP1', asso_file_obj)
+    print(r_trait_lst)
+    reported_trait = ','.join(r_trait_lst)
+    print(reported_trait)
+    print('====')
+    m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
+    print(m_trait_lst)
+    mapped_trait = ','.join(m_trait_lst)
+    print(no_of_r_trait)
+    print(mapped_trait)
+    #
+    # for r in r_trait_lst:
+    #     # print(r)
+    #     m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
+    #     print(r_trait_lst)
+    #     m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
+    #     print(m_trait_lst)
+    #
+
+    # for gene in ['FOXO3', 'APOE', 'BCL3']:
+    #     print(gene)   # work
+    #     r_trait_lst, no_of_asso = search_file(gene, asso_file_obj)
+    #     print(r_trait_lst)
+    #     print(no_of_asso)
+    #     m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
+    #     print(m_trait_lst)
+    #     print(no_of_r_trait)
+
+        # print(r_trait_lst)
+        # for r in r_trait_lst:
+        #     print(r)
+        # m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
         # print(gene + '\t' + str(no_of_r_trait))
     asso_file_obj.close()
 
