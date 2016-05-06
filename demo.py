@@ -52,15 +52,14 @@ def search_file(gene_name, association_file_obj):
     i = 0   # add a counter for number of associations
     for line in association_file_obj:
         sub_line = line.strip().split('\t')
-
-
         match_check_string = sub_line[2] + '\t' + sub_line[4] \
                           + '\t' + sub_line[6] + '\t' + sub_line[7] \
                           + '\t' + sub_line[8] + '\t' + sub_line[9] \
                           + '\t' + sub_line[13] + '\t' + sub_line[14] \
                           + '\t' + sub_line[17]
         # files need to be checked based on the GWAS-Catalog team communication email
-        # print(match_check_string)
+        print(match_check_string)
+        print(gene_name)
         if gene_name.lower() in match_check_string.lower():
             # print(line)
             reported_traits = sub_line[7]
@@ -102,45 +101,30 @@ def r_to_m_trait(reported_trait_lst, mapping_dict):
 
 
 def main():
+    outfile = open('no_of_mapped_trait.tsv', 'a')
+    header = 'gene\tno_of_asso\tno_of_m_trait\tr_trait_lst\tm_trait_lst\n'
+    outfile.write(header)
     gene_lst = build_all_gene_list('mart_export_gid_gname_37.txt')
-    asso_file_obj = open('/home/j/Desktop/gwas/gwas_catalog_v1.0.1-associations_e84_r2016-04-24.tsv', 'r')
+    # asso_file_obj = open('/home/j/Desktop/gwas/gwas_catalog_v1.0.1-associations_e84_r2016-04-24.tsv', 'r')
     map_dict = efo_mapping_dict('gwas_catalog_trait-mappings_r2016-04-24.tsv')
     # for k, v in map_dict.items():
-    # #     print(k + ' : ' + v)
-    r_trait_lst, no_of_asso = search_file('PRUNEP1', asso_file_obj)
-    print(r_trait_lst)
-    reported_trait = ','.join(r_trait_lst)
-    print(reported_trait)
-    print('====')
-    m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
-    print(m_trait_lst)
-    mapped_trait = ','.join(m_trait_lst)
-    print(no_of_r_trait)
-    print(mapped_trait)
-    #
-    # for r in r_trait_lst:
-    #     # print(r)
-    #     m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
-    #     print(r_trait_lst)
-    #     m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
-    #     print(m_trait_lst)
-    #
-
+    #     print(k + ' : ' + v)
+    # print(gene_lst)
+    # r_trait_lst, no_of_asso = search_file('PRUNEP1', asso_file_obj)
+    # r_trait_lst, no_of_asso = search_file('APOE', asso_file_obj)
     # for gene in ['FOXO3', 'APOE', 'BCL3']:
-    #     print(gene)   # work
-    #     r_trait_lst, no_of_asso = search_file(gene, asso_file_obj)
-    #     print(r_trait_lst)
-    #     print(no_of_asso)
-    #     m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
-    #     print(m_trait_lst)
-    #     print(no_of_r_trait)
-
-        # print(r_trait_lst)
-        # for r in r_trait_lst:
-        #     print(r)
-        # m_trait_lst, no_of_r_trait = r_to_m_trait(r_trait_lst, map_dict)
-        # print(gene + '\t' + str(no_of_r_trait))
-    asso_file_obj.close()
+    for gene in gene_lst:
+        print(gene)   # work
+        asso_file_obj = open('/home/j/Desktop/gwas/gwas_catalog_v1.0.1-associations_e84_r2016-04-24.tsv', 'r')
+        r_trait_lst, no_of_asso = search_file(gene, asso_file_obj)
+        print(r_trait_lst)
+        print(no_of_asso)
+        m_trait_lst, no_of_m_trait = r_to_m_trait(r_trait_lst, map_dict)
+        print(m_trait_lst)
+        print(no_of_m_trait)
+        outfile.write(gene + '\t' + str(no_of_asso) + '\t' + str(no_of_m_trait) + '\t' + ','.join(str(v) for v in r_trait_lst) + '\t' + ','.join(str(t) for t in m_trait_lst) + '\n')
+        asso_file_obj.close()
+    outfile.close()
 
 
 main()
