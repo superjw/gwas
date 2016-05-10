@@ -1,8 +1,8 @@
-line = 'gene	no_of_asso	no_of_m_trait	r_trait_lst	m_trait_lst'
-line2 = line.strip().split('\t', 1)
-print(line2[1])
-l = line2[1].split('\t')
-print(l[2])
+# line = 'gene	no_of_asso	no_of_m_trait	r_trait_lst	m_trait_lst'
+# line2 = line.strip().split('\t', 1)
+# print(line2[1])
+# l = line2[1].split('\t')
+# print(l[2])
 
 def build_no_of_mapped_trait():
     d = {}
@@ -35,8 +35,9 @@ with open('mart_export_gid_gname_37.txt', 'r') as f:
         gene_name = l_lst[1]
         # new_line = l.strip() + '\t' + d_m_trait.get(gene_name) + '\t' + d_maf.get(gene_id)
         # print(l.strip())
-        print(gene_id, end='\t')
-        print(gene_name, end = '\t')
-        print(d_m_trait.get(gene_name), end='\t')
-        print(d_maf.get(gene_id))
+        if d_maf.get(gene_id):
+            print(gene_id, end='\t')
+            print(gene_name, end = '\t')
+            print(d_m_trait.get(gene_name), end='\t')
+            print(d_maf.get(gene_id))
         # print(new_line)
